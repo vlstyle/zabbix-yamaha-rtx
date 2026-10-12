@@ -9,7 +9,7 @@ jobs:
   templates:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: pip install pyyaml
       - name: Check templates are normalized
         run: |
@@ -20,6 +20,6 @@ jobs:
   lua:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: sudo apt-get install -y lua5.3
       - run: luac5.3 -p lua/zabbix_metrics.lua
