@@ -1,0 +1,35 @@
+name: 不具合の報告
+description: 値が取れない、テンプレートのインポートに失敗する、など
+body:
+  - type: input
+    id: model
+    attributes:
+      label: 機種とファームウェア
+      placeholder: RTX830 Rev.15.02.xx
+    validations:
+      required: true
+  - type: input
+    id: zabbix
+    attributes:
+      label: Zabbixのバージョン
+      placeholder: "7.0.x"
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: このリポジトリのバージョン（タグ）
+      placeholder: v1.0.1
+  - type: textarea
+    id: description
+    attributes:
+      label: 内容
+      description: 期待した動作と、実際の動作
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: ログ・出力
+      description: "`show log`の`zabbix_metrics:`の出力など。ホスト名・IPアドレス・トークンは伏せてください。"
+      render: text

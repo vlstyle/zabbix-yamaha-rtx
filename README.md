@@ -34,6 +34,10 @@ python3 tools/normalize.py templates/yamaha_rtx_lua.yaml
 
 項目の並び順と既定値の扱いは [docs/template-conventions.md](docs/template-conventions.md)。
 
+## コントリビューション
+
+Issue・Pull Requestを歓迎します。[CONTRIBUTING.md](CONTRIBUTING.md)を参照。脆弱性は[SECURITY.md](SECURITY.md)。
+
 ## ライセンス
 
 [AGPL-3.0](LICENSE)。`Yamaha RTX by SNMP`は、Zabbix公式の`Network Generic Device by SNMP`（7.0、AGPLv3）を元にしている。
