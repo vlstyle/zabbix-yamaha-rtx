@@ -1,0 +1,593 @@
+# Zabbixは既定値（delay: 1m / history: 31d / trends: 365d / value_type: UNSIGNED / error_handler: DISCARD_VALUE）を省略してエクスポートするため、
+# インポート時の差分が出ないよう、既定値の行はコメントアウトして記載している。
+zabbix_export:
+  version: '7.0'
+  template_groups:
+  - uuid: 36bff6c29af64692839d077febfc7079
+    name: Templates/Network devices
+  templates:
+  - uuid: 41a2956fa75a45f5a41d64b8b68c902a
+    template: Yamaha RTX by Lua
+    name: Yamaha RTX by Lua
+    description: Packet buffer and external ping values pushed by /lua/zabbix_metrics.lua on the router through the history.push API (trapper items).
+    groups:
+    - name: Templates/Network devices
+    items:
+    - uuid: c01e9bbd63fc43a08d4b4e656621870e
+      name: 'Packet buffer small: Usage'
+      type: TRAP
+      key: pktbuf.small.usage
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      value_type: FLOAT
+      units: '%'
+      description: Allocated buffers as a percentage of max-buffer.
+      tags:
+      - tag: component
+        value: packet-buffer
+      - tag: group
+        value: small
+      triggers:
+      - uuid: 4be7d2764f1f4175a3190014ee6216f6
+        expression: min(/Yamaha RTX by Lua/pktbuf.small.usage,5m)>{$PKTBUF.USAGE.WARN}
+        name: 'Yamaha RTX: Packet buffer small usage is high'
+        opdata: 'Usage: {ITEM.LASTVALUE1}'
+        priority: WARNING
+        description: Usage of the small packet buffer group has been above the threshold for 5 minutes.
+        tags:
+        - tag: scope
+          value: capacity
+    - uuid: ffc9f17f4de54c119f1e9a323d85f2fe
+      name: 'Packet buffer small: Allocated buffers'
+      type: TRAP
+      key: pktbuf.small.allocated
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      # value_type: UNSIGNED
+      description: Number of buffers currently allocated.
+      tags:
+      - tag: component
+        value: packet-buffer
+      - tag: group
+        value: small
+    - uuid: 1182a7c31a114ec1a0926edafd1c5b50
+      name: 'Packet buffer small: Free list buffers'
+      type: TRAP
+      key: pktbuf.small.free
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      # value_type: UNSIGNED
+      description: Number of buffers in the free list.
+      tags:
+      - tag: component
+        value: packet-buffer
+      - tag: group
+        value: small
+    - uuid: 53f1cf918c3a43cab7521be26efd3b38
+      name: 'Packet buffer small: Allocation failures'
+      type: TRAP
+      key: pktbuf.small.fail
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      # value_type: UNSIGNED
+      description: Cumulative number of failed buffer allocations since boot.
+      tags:
+      - tag: component
+        value: packet-buffer
+      - tag: group
+        value: small
+      triggers:
+      - uuid: 0396bec4391447288470da301a6865d4
+        expression: change(/Yamaha RTX by Lua/pktbuf.small.fail)>0
+        name: 'Yamaha RTX: Packet buffer small allocation failed'
+        opdata: 'Failures: {ITEM.LASTVALUE1}'
+        priority: AVERAGE
+        description: The small packet buffer group failed to allocate buffers since the previous value.
+        tags:
+        - tag: scope
+          value: capacity
+    - uuid: 046842591cb44778ae460593505004b7
+      name: 'Packet buffer small: Allocated chunks'
+      type: TRAP
+      key: pktbuf.small.chunks
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      # value_type: UNSIGNED
+      description: Number of chunks currently allocated.
+      tags:
+      - tag: component
+        value: packet-buffer
+      - tag: group
+        value: small
+    - uuid: 5ee6445e937d4aa180dc7c8e5b0ce41f
+      name: 'Packet buffer middle: Usage'
+      type: TRAP
+      key: pktbuf.middle.usage
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      value_type: FLOAT
+      units: '%'
+      description: Allocated buffers as a percentage of max-buffer.
+      tags:
+      - tag: component
+        value: packet-buffer
+      - tag: group
+        value: middle
+      triggers:
+      - uuid: 1f5872bf5a5a4a01b92ce75f22e36821
+        expression: min(/Yamaha RTX by Lua/pktbuf.middle.usage,5m)>{$PKTBUF.USAGE.WARN}
+        name: 'Yamaha RTX: Packet buffer middle usage is high'
+        opdata: 'Usage: {ITEM.LASTVALUE1}'
+        priority: WARNING
+        description: Usage of the middle packet buffer group has been above the threshold for 5 minutes.
+        tags:
+        - tag: scope
+          value: capacity
+    - uuid: 8ab055950521405ca41e0a2395711815
+      name: 'Packet buffer middle: Allocated buffers'
+      type: TRAP
+      key: pktbuf.middle.allocated
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      # value_type: UNSIGNED
+      description: Number of buffers currently allocated.
+      tags:
+      - tag: component
+        value: packet-buffer
+      - tag: group
+        value: middle
+    - uuid: ea444cfe7fee40caaaa90a22bf37f093
+      name: 'Packet buffer middle: Free list buffers'
+      type: TRAP
+      key: pktbuf.middle.free
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      # value_type: UNSIGNED
+      description: Number of buffers in the free list.
+      tags:
+      - tag: component
+        value: packet-buffer
+      - tag: group
+        value: middle
+    - uuid: 0359ac93a0aa46b4b1fc27d1d0ac17d3
+      name: 'Packet buffer middle: Allocation failures'
+      type: TRAP
+      key: pktbuf.middle.fail
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      # value_type: UNSIGNED
+      description: Cumulative number of failed buffer allocations since boot.
+      tags:
+      - tag: component
+        value: packet-buffer
+      - tag: group
+        value: middle
+      triggers:
+      - uuid: 798a42e6781443478e495b9036f75e6c
+        expression: change(/Yamaha RTX by Lua/pktbuf.middle.fail)>0
+        name: 'Yamaha RTX: Packet buffer middle allocation failed'
+        opdata: 'Failures: {ITEM.LASTVALUE1}'
+        priority: AVERAGE
+        description: The middle packet buffer group failed to allocate buffers since the previous value.
+        tags:
+        - tag: scope
+          value: capacity
+    - uuid: 20d3ee69baf64ea390c32d05351f0995
+      name: 'Packet buffer middle: Allocated chunks'
+      type: TRAP
+      key: pktbuf.middle.chunks
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      # value_type: UNSIGNED
+      description: Number of chunks currently allocated.
+      tags:
+      - tag: component
+        value: packet-buffer
+      - tag: group
+        value: middle
+    - uuid: 11e74985f07c4c17a0b9f8fa413c057c
+      name: 'Packet buffer large: Usage'
+      type: TRAP
+      key: pktbuf.large.usage
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      value_type: FLOAT
+      units: '%'
+      description: Allocated buffers as a percentage of max-buffer.
+      tags:
+      - tag: component
+        value: packet-buffer
+      - tag: group
+        value: large
+      triggers:
+      - uuid: c63a2fecd3d0408c9876f04dec2b5840
+        expression: min(/Yamaha RTX by Lua/pktbuf.large.usage,5m)>{$PKTBUF.USAGE.WARN}
+        name: 'Yamaha RTX: Packet buffer large usage is high'
+        opdata: 'Usage: {ITEM.LASTVALUE1}'
+        priority: WARNING
+        description: Usage of the large packet buffer group has been above the threshold for 5 minutes.
+        tags:
+        - tag: scope
+          value: capacity
+      - uuid: ce74c2faea9c4a0189f264c9665b92ad
+        expression: nodata(/Yamaha RTX by Lua/pktbuf.large.usage,5m)=1
+        name: 'Yamaha RTX: No packet buffer data received'
+        priority: WARNING
+        description: No packet buffer values were pushed by the Lua script for 5 minutes.
+        tags:
+        - tag: scope
+          value: availability
+    - uuid: e5891d606cf7424cbd42871cd6625275
+      name: 'Packet buffer large: Allocated buffers'
+      type: TRAP
+      key: pktbuf.large.allocated
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      # value_type: UNSIGNED
+      description: Number of buffers currently allocated.
+      tags:
+      - tag: component
+        value: packet-buffer
+      - tag: group
+        value: large
+    - uuid: b51fcb3311a84c88a49e6c226a3e156d
+      name: 'Packet buffer large: Free list buffers'
+      type: TRAP
+      key: pktbuf.large.free
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      # value_type: UNSIGNED
+      description: Number of buffers in the free list.
+      tags:
+      - tag: component
+        value: packet-buffer
+      - tag: group
+        value: large
+    - uuid: 56f4c578ca02407fbe8a1334974cb012
+      name: 'Packet buffer large: Allocation failures'
+      type: TRAP
+      key: pktbuf.large.fail
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      # value_type: UNSIGNED
+      description: Cumulative number of failed buffer allocations since boot.
+      tags:
+      - tag: component
+        value: packet-buffer
+      - tag: group
+        value: large
+      triggers:
+      - uuid: cd21f380d0e2454492d8877fa7f26066
+        expression: change(/Yamaha RTX by Lua/pktbuf.large.fail)>0
+        name: 'Yamaha RTX: Packet buffer large allocation failed'
+        opdata: 'Failures: {ITEM.LASTVALUE1}'
+        priority: AVERAGE
+        description: The large packet buffer group failed to allocate buffers since the previous value.
+        tags:
+        - tag: scope
+          value: capacity
+    - uuid: c8f3e5bf74ae424cb35a7073c677d638
+      name: 'Packet buffer large: Allocated chunks'
+      type: TRAP
+      key: pktbuf.large.chunks
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      # value_type: UNSIGNED
+      description: Number of chunks currently allocated.
+      tags:
+      - tag: component
+        value: packet-buffer
+      - tag: group
+        value: large
+    - uuid: 69758c0be8fe402480eab320c5409a7c
+      name: 'Packet buffer huge: Usage'
+      type: TRAP
+      key: pktbuf.huge.usage
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      value_type: FLOAT
+      units: '%'
+      description: Allocated buffers as a percentage of max-buffer.
+      tags:
+      - tag: component
+        value: packet-buffer
+      - tag: group
+        value: huge
+      triggers:
+      - uuid: 2073679e654141899fdbc5f135029d00
+        expression: min(/Yamaha RTX by Lua/pktbuf.huge.usage,5m)>{$PKTBUF.USAGE.WARN}
+        name: 'Yamaha RTX: Packet buffer huge usage is high'
+        opdata: 'Usage: {ITEM.LASTVALUE1}'
+        priority: WARNING
+        description: Usage of the huge packet buffer group has been above the threshold for 5 minutes.
+        tags:
+        - tag: scope
+          value: capacity
+    - uuid: 4c932816824a47e7a26a3b0e3f252724
+      name: 'Packet buffer huge: Allocated buffers'
+      type: TRAP
+      key: pktbuf.huge.allocated
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      # value_type: UNSIGNED
+      description: Number of buffers currently allocated.
+      tags:
+      - tag: component
+        value: packet-buffer
+      - tag: group
+        value: huge
+    - uuid: f405fda3371d4fb19bd9faec230c5eaf
+      name: 'Packet buffer huge: Free list buffers'
+      type: TRAP
+      key: pktbuf.huge.free
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      # value_type: UNSIGNED
+      description: Number of buffers in the free list.
+      tags:
+      - tag: component
+        value: packet-buffer
+      - tag: group
+        value: huge
+    - uuid: a5c855ccb30b45bfa3f6255f5325364d
+      name: 'Packet buffer huge: Allocation failures'
+      type: TRAP
+      key: pktbuf.huge.fail
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      # value_type: UNSIGNED
+      description: Cumulative number of failed buffer allocations since boot.
+      tags:
+      - tag: component
+        value: packet-buffer
+      - tag: group
+        value: huge
+      triggers:
+      - uuid: 01f9cd43223344238e32953bd2732be5
+        expression: change(/Yamaha RTX by Lua/pktbuf.huge.fail)>0
+        name: 'Yamaha RTX: Packet buffer huge allocation failed'
+        opdata: 'Failures: {ITEM.LASTVALUE1}'
+        priority: AVERAGE
+        description: The huge packet buffer group failed to allocate buffers since the previous value.
+        tags:
+        - tag: scope
+          value: capacity
+    - uuid: 6a3a628bdea9458c8742889a0273ab49
+      name: 'Packet buffer huge: Allocated chunks'
+      type: TRAP
+      key: pktbuf.huge.chunks
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      # value_type: UNSIGNED
+      description: Number of chunks currently allocated.
+      tags:
+      - tag: component
+        value: packet-buffer
+      - tag: group
+        value: huge
+    - uuid: 7fa2157d47b0446daa5d164de0798016
+      name: 'External ping: Loss'
+      type: TRAP
+      key: ping.external.loss
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      value_type: FLOAT
+      units: '%'
+      description: Packet loss of the 3 pings to the external target.
+      tags:
+      - tag: component
+        value: external-ping
+      triggers:
+      - uuid: aa51dc3ab9714563b44979350739ae51
+        expression: min(/Yamaha RTX by Lua/ping.external.loss,5m)>={$EXTPING.LOSS.CRIT}
+        name: 'Yamaha RTX: External ping loss is high'
+        opdata: 'Loss: {ITEM.LASTVALUE1}'
+        priority: HIGH
+        description: Ping loss to the external target stayed at or above the threshold for 5 minutes.
+        tags:
+        - tag: scope
+          value: availability
+    - uuid: 4e8f741a01d8413ca64b39ffcf8a1204
+      name: 'External ping: Response time avg'
+      type: TRAP
+      key: ping.external.rtt.avg
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      value_type: FLOAT
+      units: ms
+      description: Average response time of the replies.
+      tags:
+      - tag: component
+        value: external-ping
+    - uuid: a506d20b0a054123abd95e86c4beff08
+      name: 'External ping: Response time min'
+      type: TRAP
+      key: ping.external.rtt.min
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      value_type: FLOAT
+      units: ms
+      description: Minimum response time of the replies.
+      tags:
+      - tag: component
+        value: external-ping
+      triggers:
+      - uuid: 67fd1de337ec41578fa4561803acc270
+        expression: min(/Yamaha RTX by Lua/ping.external.rtt.min,5m)>{$EXTPING.RTT.CRIT}
+        name: 'Yamaha RTX: External ping response time is high'
+        opdata: 'Response time: {ITEM.LASTVALUE1}'
+        priority: HIGH
+        description: Minimum response time to the external target stayed above the threshold for 5 minutes.
+        tags:
+        - tag: scope
+          value: performance
+    - uuid: b6d2dbd945c54e0bbd92d8065e0201c3
+      name: 'External ping: Response time max'
+      type: TRAP
+      key: ping.external.rtt.max
+      # delay: 1m
+      # history: 31d
+      # trends: 365d
+      value_type: FLOAT
+      units: ms
+      description: Maximum response time of the replies.
+      tags:
+      - tag: component
+        value: external-ping
+    tags:
+    - tag: class
+      value: network
+    - tag: target
+      value: yamaha-rtx
+    macros:
+    - macro: '{$EXTPING.LOSS.CRIT}'
+      value: '50'
+      description: Critical threshold of the external ping loss in %.
+    - macro: '{$EXTPING.RTT.CRIT}'
+      value: '100'
+      description: Critical threshold of the external ping minimum response time in ms.
+    - macro: '{$PKTBUF.USAGE.WARN}'
+      value: '80'
+      description: Warning threshold of the packet buffer usage in %.
+  graphs:
+  - uuid: f5df9aa776554bb19498b7f5b82ae20f
+    name: Packet buffer usage
+    ymin_type_1: FIXED
+    ymax_type_1: FIXED
+    graph_items:
+    - color: 199C0D
+      item:
+        host: Yamaha RTX by Lua
+        key: pktbuf.small.usage
+    - sortorder: '1'
+      color: F63100
+      item:
+        host: Yamaha RTX by Lua
+        key: pktbuf.middle.usage
+    - sortorder: '2'
+      color: 2774A4
+      item:
+        host: Yamaha RTX by Lua
+        key: pktbuf.large.usage
+    - sortorder: '3'
+      color: F7941D
+      item:
+        host: Yamaha RTX by Lua
+        key: pktbuf.huge.usage
+  - uuid: 226de3e5b274475a9e2571b30489e2e0
+    name: Packet buffer allocated (small, middle, huge)
+    graph_items:
+    - color: 199C0D
+      item:
+        host: Yamaha RTX by Lua
+        key: pktbuf.small.allocated
+    - sortorder: '1'
+      color: F63100
+      item:
+        host: Yamaha RTX by Lua
+        key: pktbuf.middle.allocated
+    - sortorder: '2'
+      color: F7941D
+      item:
+        host: Yamaha RTX by Lua
+        key: pktbuf.huge.allocated
+  - uuid: 6d5a9a24b26447319d843008cf4d8aff
+    name: Packet buffer allocated (large)
+    graph_items:
+    - color: 2774A4
+      item:
+        host: Yamaha RTX by Lua
+        key: pktbuf.large.allocated
+  - uuid: f061013f3ed544d08192b5156f340f6a
+    name: Packet buffer allocation failures
+    graph_items:
+    - color: 199C0D
+      item:
+        host: Yamaha RTX by Lua
+        key: pktbuf.small.fail
+    - sortorder: '1'
+      color: F63100
+      item:
+        host: Yamaha RTX by Lua
+        key: pktbuf.middle.fail
+    - sortorder: '2'
+      color: 2774A4
+      item:
+        host: Yamaha RTX by Lua
+        key: pktbuf.large.fail
+    - sortorder: '3'
+      color: F7941D
+      item:
+        host: Yamaha RTX by Lua
+        key: pktbuf.huge.fail
+  - uuid: ada563a1ca744c5b81be12485a212264
+    name: Packet buffer allocated chunks
+    graph_items:
+    - color: 199C0D
+      item:
+        host: Yamaha RTX by Lua
+        key: pktbuf.small.chunks
+    - sortorder: '1'
+      color: F63100
+      item:
+        host: Yamaha RTX by Lua
+        key: pktbuf.middle.chunks
+    - sortorder: '2'
+      color: 2774A4
+      item:
+        host: Yamaha RTX by Lua
+        key: pktbuf.large.chunks
+    - sortorder: '3'
+      color: F7941D
+      item:
+        host: Yamaha RTX by Lua
+        key: pktbuf.huge.chunks
+  - uuid: 4dc0d486265b45da8da33e50985139b1
+    name: External ping response time
+    graph_items:
+    - color: 2774A4
+      item:
+        host: Yamaha RTX by Lua
+        key: ping.external.rtt.min
+    - sortorder: '1'
+      color: 199C0D
+      item:
+        host: Yamaha RTX by Lua
+        key: ping.external.rtt.avg
+    - sortorder: '2'
+      color: F63100
+      item:
+        host: Yamaha RTX by Lua
+        key: ping.external.rtt.max
+  - uuid: 2daceab0497a46c0a396cc4a39869672
+    name: External ping loss
+    ymin_type_1: FIXED
+    ymax_type_1: FIXED
+    graph_items:
+    - color: F63100
+      item:
+        host: Yamaha RTX by Lua
+        key: ping.external.loss

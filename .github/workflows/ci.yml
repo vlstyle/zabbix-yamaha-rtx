@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  templates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install pyyaml
+      - name: Check templates are normalized
+        run: |
+          python3 tools/normalize.py templates/yamaha_rtx_snmp.yaml
+          python3 tools/normalize.py templates/yamaha_rtx_lua.yaml
+          git diff --exit-code
+
+  lua:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get install -y lua5.3
+      - run: luac5.3 -p lua/zabbix_metrics.lua
