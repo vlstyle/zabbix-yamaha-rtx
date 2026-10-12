@@ -577,11 +577,6 @@ zabbix_export:
       item:
         host: Yamaha RTX by Lua
         key: ping.external.rtt.avg
-    - sortorder: '2'
-      color: F63100
-      item:
-        host: Yamaha RTX by Lua
-        key: ping.external.rtt.max
   - uuid: 2daceab0497a46c0a396cc4a39869672
     name: External ping loss
     ymin_type_1: FIXED
